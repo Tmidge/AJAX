@@ -23,10 +23,10 @@
   <h3>Highest bid</h3>
   <div class="row collapse">
     <div class="small-2 columns"><span class="prefix">$</span></div>
-    <div class="small-10 columns"><%= text_field_tag :nothing, @item.highest_bid_amount, disabled: true %></div>
+    <div class="small-10 columns"><%= text_field_tag :nothing, @item.highest_bid_amount, disabled: true%></div>
   </div>
 
-  <%= form_for @bid do |f| %>
+  <%= form_for @bid, remote: true do |f| %>
     <h3>Your Bid</h3>
     <%= f.hidden_field :item_id %>
     <div class="row collapse">
@@ -38,3 +38,17 @@
 </div>
 <div class="small-4 columns">
 </div>
+
+<script>
+  setInterval(function() {
+    $.ajax({
+      url: "<%=item_path(@item.id)%>",
+      headers: {
+        Accept : "application/javascript",
+        "Content-Type" : "application/javascript"
+      }
+    });
+  }, 15000);
+</script>
+
+<%= link_to "refrech", item_path(@item.id), remote: true%>
